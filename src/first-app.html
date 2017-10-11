@@ -5,7 +5,9 @@
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 
 <link rel="import" href="table-view.html">
 <link rel="import" href="pie-chart.html">
@@ -40,19 +42,28 @@
                    last-response="{{ajaxResponse}}"
                    on-error="_handleError"></iron-ajax>
 
-        <table-view data="{{ajaxResponse}}"></table-view>
-
-        <pie-chart id="pie-chart"
-                   data="{{data}}"
-                   key-accessor-path="key"
-                   value-accessor-path="value"
-                   inner-radius="5"
-                   pad-angle="0.05"
-        ></pie-chart>
-
-        <!--<diagram-tabs></diagram-tabs>-->
-
         <paper-toast id="toast" text="[[requestErrorText]]"></paper-toast>
+
+        <!--<table-view data="{{ajaxResponse}}"></table-view>-->
+
+        <paper-tabs id="tabs" selected="0">
+          <paper-tab>First</paper-tab>
+          <paper-tab>Second</paper-tab>
+          <paper-tab>Third</paper-tab>
+        </paper-tabs>
+
+        <iron-pages id="pages" selected="0">
+          <div>
+            <pie-chart id="pie-chart"
+                       data="{{data}}"
+                       key-accessor-path="key"
+                       value-accessor-path="value"
+                       inner-radius="5"
+                       pad-angle="0.05"></pie-chart>
+          </div>
+          <div>Page Two</div>
+          <div>Page Three</div>
+        </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -80,10 +91,16 @@
         data: Array,
       },
 
-      _updateData: function () {
-        var preparedArray = [];
+      attached: function () {
+        this.$.tabs.addEventListener('iron-select', () => {
+          this.$.pages.selected = this.$.tabs.selected;
+        });
+      },
 
-        this.ajaxResponse.forEach(function (beer) {
+      _updateData: function () {
+        let preparedArray = [];
+
+        this.ajaxResponse.forEach((beer) => {
           preparedArray.push({
             key: beer.name,
             value: beer.ibu || 0,
@@ -91,8 +108,6 @@
         });
 
         this.data = preparedArray;
-
-        console.log(this.data);
       },
 
       _handleError: function () {
