@@ -1,0 +1,23 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/first-app.html",
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ],
+  "lint": {
+    "rules": ["polymer-1"]
+  },
+  "builds": [
+    {
+      "preset": "es5-bundled",
+      "addServiceWorker": false,
+      "addPushManifest": false,
+      "insertPrefetchLinks": false
+    }
+  ]
+}

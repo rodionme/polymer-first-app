@@ -1,0 +1,12 @@
+{
+  "name": "polymer-first-app",
+  "author": "Rodion Mescheryakov <msrodion@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#1.9.3",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0"
+  }
+}

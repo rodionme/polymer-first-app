@@ -1,0 +1,18 @@
+{
+  "name": "polymer-first-app",
+  "version": "1.0.0",
+  "description": "First App on Polymer",
+  "author": "Rodion Mescheryakov <msrodion@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "npm run lint:javascript",
+    "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
+    "test": "polymer test",
+    "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-html": "^2.0.0"
+  }
+}
