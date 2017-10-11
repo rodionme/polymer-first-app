@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "d3-radar-chart": "^0.8.3",
     "multi-chart": "^0.7.9",
     "paper-tabs": "^2.0.0"
   }

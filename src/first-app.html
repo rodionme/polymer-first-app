@@ -10,7 +10,9 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 
 <link rel="import" href="table-view.html">
-<link rel="import" href="pie-chart.html">
+<link rel="import" href="charts/pie-chart.html">
+<link rel="import" href="charts/stack-chart.html">
+<link rel="import" href="charts/radar-chart.html">
 
 <dom-module id="first-app">
   <template>
@@ -36,15 +38,16 @@
           </app-toolbar>
         </app-header>
 
-        <iron-ajax id="ajax"
-                   auto
-                   url="[[requestUrl]]"
-                   last-response="{{ajaxResponse}}"
-                   on-error="_handleError"></iron-ajax>
+        <iron-ajax
+            id="ajax"
+            auto
+            url="[[requestUrl]]"
+            last-response="{{ajaxResponse}}"
+            on-error="_handleError"></iron-ajax>
 
         <paper-toast id="toast" text="[[requestErrorText]]"></paper-toast>
 
-        <!--<table-view data="{{ajaxResponse}}"></table-view>-->
+        <table-view data="{{ajaxResponse}}"></table-view>
 
         <paper-tabs id="tabs" selected="0">
           <paper-tab>First</paper-tab>
@@ -54,15 +57,29 @@
 
         <iron-pages id="pages" selected="0">
           <div>
-            <pie-chart id="pie-chart"
-                       data="{{data}}"
-                       key-accessor-path="key"
-                       value-accessor-path="value"
-                       inner-radius="5"
-                       pad-angle="0.05"></pie-chart>
+            <pie-chart
+                id="pie-chart"
+                data="{{pieData}}"
+                key-accessor-path="key"
+                value-accessor-path="value"
+                inner-radius="5"
+                pad-angle="0.05"></pie-chart>
           </div>
-          <div>Page Two</div>
-          <div>Page Three</div>
+          <div>
+            <!-- TODO: Negative value error -->
+            <stack-chart
+                id="stack-chart"
+                data="{{stackData}}"
+                x-accessor-path="key"
+                y-accessor-path="value"
+            ></stack-chart>
+          </div>
+          <div>
+            <radar-chart
+                id="radar-chart"
+                data="{{radarData}}"
+                options="{maxValue: 100}"></radar-chart>
+          </div>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
@@ -88,7 +105,9 @@
           observer: '_updateData',
         },
 
-        data: Array,
+        pieData: Array,
+        stackData: Array,
+        radarData: Array,
       },
 
       attached: function () {
@@ -98,6 +117,12 @@
       },
 
       _updateData: function () {
+        this._prepareDataForPie();
+        this._prepareDataForStack();
+        this._prepareDataForRadar();
+      },
+
+      _prepareDataForPie: function () {
         let preparedArray = [];
 
         this.ajaxResponse.forEach((beer) => {
@@ -107,7 +132,48 @@
           });
         });
 
-        this.data = preparedArray;
+        this.pieData = preparedArray;
+      },
+
+      _prepareDataForStack: function () {
+        let preparedArray = [];
+
+        this.ajaxResponse.forEach((beer) => {
+          preparedArray.push({
+            key: beer.name,
+            value: {
+              abv: beer.abv || 0,
+              ibu: beer.ibu || 0,
+              ebc: beer.ebc || 0,
+            },
+          });
+        });
+
+        this.stackData = preparedArray;
+      },
+
+      _prepareDataForRadar: function () {
+        const keys = ['abv', 'srm', 'ebc', 'ph'];
+        let preparedArray = [];
+        let axes = [];
+
+        this.ajaxResponse.slice(0, 5).forEach((beer) => {
+          axes = [];
+
+          keys.forEach((key) => {
+            axes.push({
+              axis: key,
+              value: beer[key],
+            });
+          });
+
+          preparedArray.push({
+            className: beer.name,
+            axes,
+          });
+        });
+
+        this.radarData = preparedArray;
       },
 
       _handleError: function () {

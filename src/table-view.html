@@ -14,9 +14,9 @@
         <tr>
           <th>Name</th>
           <th>First brewed</th>
-          <th>ABV</th>
-          <th>IBU</th>
-          <th>PH</th>
+          <th>ABV (Alcohol by volume)</th>
+          <th>IBU (International Bitterness Units)(горечь)</th>
+          <th>EBC (European Brewery Convention)(цвет)</th>
         </tr>
       </thead>
 
@@ -27,7 +27,7 @@
             <td>{{item.first_brewed}}</td>
             <td>{{item.abv}}</td>
             <td>{{item.ibu}}</td>
-            <td>{{item.ph}}</td>
+            <td>{{item.ebc}}</td>
           </tr>
         </template>
       </tbody>
@@ -39,7 +39,7 @@
       is: 'table-view',
 
       properties: {
-        requestUrl: {
+        beerRequestUrl: {
           type: String,
           value: 'https://api.punkapi.com/v2/beers',
         },
@@ -50,7 +50,7 @@
         },
       },
 
-      _handleError: function() {
+      _handleError: function () {
         this.$.toast.show();
       },
     });
