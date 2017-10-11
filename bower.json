@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#1.9.3",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "d3-bundle-element": "^1.7.0",
+    "iron-ajax": "PolymerElements/iron-ajax#1.4.4",
+    "paper-toast": "PolymerElements/paper-toast#^2.0.0"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^6.0.0"
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "multi-chart": "^0.7.9"
   }
 }

@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/d3-bundle-element/d3-element-multi-debug.html">
+<link rel="import" href="../bower_components/multi-chart/chart/multi-chart-simple.html">
+<link rel="import" href="../bower_components/multi-chart/d3-shape/d3-pie.html">
+<link rel="import" href="../bower_components/multi-chart/shape/multi-shape-pie.html">
+<link rel="import" href="../bower_components/multi-chart/multi-selector.html">
+<link rel="import" href="../bower_components/multi-chart/multi-legend.html">
+<link rel="stylesheet" href="../bower_components/multi-chart/multichart.css">
+
+<dom-module id="pie-chart">
+  <template>
+    <style>
+      #chart {
+        height: 400px;
+      }
+    </style>
+
+    <h3>Basic multi-poly Demo</h3>
+
+    <multi-chart-simple
+        id="chart"
+        width="{{width}}"
+        height="{{height}}"
+        center="{{center}}"
+
+        data="[[data]]"
+
+        color-scale="{{colorScale}}"
+        key-accessor-path="[[keyAccessorPath]]"
+        key-accessor="{{keyAccessor}}"
+        value-accessor-path="[[valueAccessorPath]]"
+        value-accessor="{{valueAccessor}}">
+
+      <d3-pie data="{{arcs}}"
+              value="[[valueAccessor]]"
+              pad-angle="[[padAngle]]"
+              sort="[[sort]]"
+              sort-values="[[sortValues]]"></d3-pie>
+
+      <multi-shape-pie
+          width="[[width]]"
+          height="[[height]]"
+          center="[[center]]"
+          arcs="[[arcs]]"
+          inner-radius="[[innerRadius]]"
+          color-scale="[[colorScale]]"></multi-shape-pie>
+
+      <multi-selector selection-type="select" accessor="[[keyAccessor]]"></multi-selector>
+
+      <multi-legend legend chart-width="[[width]]" scale-factor="0.7" scale="[[colorScale]]" position="top-right"></multi-legend>
+
+    </multi-chart-simple>
+
+    <!--<h3 header>test pie chart</h3>-->
+
+    <!--<paper-input label="innerRadius" min="0" type="number" value="{{innerRadius}}"></paper-input>-->
+    <!--<paper-input label="parAngle" min="0" type="number" step="0.02" value="{{padAngle}}"></paper-input>-->
+
+    <!--<paper-button raised on-tap="toggle">toggle data</paper-button>-->
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pie-chart',
+    });
+  </script>
+</dom-module>

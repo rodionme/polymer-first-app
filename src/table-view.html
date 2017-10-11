@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="table-view">
+  <style>
+    :host {
+      display: block;
+      padding: 10px;
+    }
+  </style>
+
+  <template>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>First brewed</th>
+          <th>ABV</th>
+          <th>IBU</th>
+          <th>PH</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <template is="dom-repeat" items="[[data]]">
+          <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.first_brewed}}</td>
+            <td>{{item.abv}}</td>
+            <td>{{item.ibu}}</td>
+            <td>{{item.ph}}</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'table-view',
+
+      properties: {
+        requestUrl: {
+          type: String,
+          value: 'https://api.punkapi.com/v2/beers',
+        },
+
+        requestErrorText: {
+          type: String,
+          value: 'Something, somewhere, went wrong',
+        },
+      },
+
+      _handleError: function() {
+        this.$.toast.show();
+      },
+    });
+  </script>
+</dom-module>

@@ -4,8 +4,11 @@
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
-<link rel="import" href="my-view1.html">
+<link rel="import" href="table-view.html">
+<link rel="import" href="pie-chart.html">
 
 <dom-module id="first-app">
   <template>
@@ -31,7 +34,25 @@
           </app-toolbar>
         </app-header>
 
-        <my-view1 name="view1"></my-view1>
+        <iron-ajax id="ajax"
+                   auto
+                   url="[[requestUrl]]"
+                   last-response="{{ajaxResponse}}"
+                   on-error="_handleError"></iron-ajax>
+
+        <table-view data="{{ajaxResponse}}"></table-view>
+
+        <pie-chart id="pie-chart"
+                   data="{{data}}"
+                   key-accessor-path="key"
+                   value-accessor-path="value"
+                   inner-radius="5"
+                   pad-angle="0.05"
+        ></pie-chart>
+
+        <!--<diagram-tabs></diagram-tabs>-->
+
+        <paper-toast id="toast" text="[[requestErrorText]]"></paper-toast>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -39,6 +60,44 @@
   <script>
     Polymer({
       is: 'first-app',
+
+      properties: {
+        requestUrl: {
+          type: String,
+          value: 'https://api.punkapi.com/v2/beers',
+        },
+
+        requestErrorText: {
+          type: String,
+          value: 'Something, somewhere, went wrong',
+        },
+
+        ajaxResponse: {
+          type: Array,
+          observer: '_updateData',
+        },
+
+        data: Array,
+      },
+
+      _updateData: function () {
+        var preparedArray = [];
+
+        this.ajaxResponse.forEach(function (beer) {
+          preparedArray.push({
+            key: beer.name,
+            value: beer.ibu || 0,
+          });
+        });
+
+        this.data = preparedArray;
+
+        console.log(this.data);
+      },
+
+      _handleError: function () {
+        this.$.toast.show();
+      },
     });
   </script>
 </dom-module>
