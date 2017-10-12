@@ -14,10 +14,7 @@
   },
   "builds": [
     {
-      "preset": "es5-bundled",
-      "addServiceWorker": false,
-      "addPushManifest": false,
-      "insertPrefetchLinks": false
+      "preset": "es6-bundled"
     }
   ]
 }
