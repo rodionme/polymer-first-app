@@ -32,16 +32,16 @@
         background-color: var(--app-primary-color);
       }
 
+      .table-title,
+      .charts-title {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
       .charts {
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid #ddd;
-      }
-
-      .charts-title {
-        margin-top: 0;
-        margin-bottom: 10px;
-        text-align: center;
       }
 
       .tab-content {
@@ -72,7 +72,11 @@
 
         <paper-toast id="toast" text="[[requestErrorText]]"></paper-toast>
 
-        <table-view data="{{ajaxResponse}}"></table-view>
+        <section class="table">
+          <h3 class="table-title">Beer table</h3>
+
+          <table-view data="{{ajaxResponse}}"></table-view>
+        </section>
 
         <section class="charts">
           <h3 class="charts-title">Charts</h3>
