@@ -23,9 +23,34 @@
         display: block;
       }
 
+      app-drawer-layout {
+        min-width: 850px;
+      }
+
       app-header {
         color: #fff;
         background-color: var(--app-primary-color);
+      }
+
+      .charts {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .charts-title {
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 10px;
+      }
+
+      .tab-content.iron-selected {
+        display: block;
       }
     </style>
 
@@ -49,38 +74,43 @@
 
         <table-view data="{{ajaxResponse}}"></table-view>
 
-        <paper-tabs id="tabs" selected="0">
-          <paper-tab>First</paper-tab>
-          <paper-tab>Second</paper-tab>
-          <paper-tab>Third</paper-tab>
-        </paper-tabs>
+        <section class="charts">
+          <h3 class="charts-title">Charts</h3>
 
-        <iron-pages id="pages" selected="0">
-          <div>
-            <pie-chart
-                id="pie-chart"
-                data="{{pieData}}"
-                key-accessor-path="key"
-                value-accessor-path="value"
-                inner-radius="5"
-                pad-angle="0.05"></pie-chart>
-          </div>
-          <div>
-            <!-- TODO: Negative value error -->
-            <stack-chart
-                id="stack-chart"
-                data="{{stackData}}"
-                x-accessor-path="key"
-                y-accessor-path="value"
-            ></stack-chart>
-          </div>
-          <div>
-            <radar-chart
-                id="radar-chart"
-                data="{{radarData}}"
-                options="{maxValue: 100}"></radar-chart>
-          </div>
-        </iron-pages>
+          <paper-tabs id="tabs" selected="0">
+            <paper-tab>Stack chart</paper-tab>
+            <paper-tab>Pie chart</paper-tab>
+            <paper-tab>Radar chart</paper-tab>
+          </paper-tabs>
+
+          <iron-pages id="pages" selected="0">
+            <div class="tab-content">
+                <!-- TODO: Negative value error just inside the tab -->
+                <stack-chart
+                  id="stack-chart"
+                  data="{{stackData}}"
+                  x-accessor-path="key"
+                  y-accessor-path="value"></stack-chart>
+            </div>
+
+            <div class="tab-content">
+              <pie-chart
+                  id="pie-chart"
+                  data="{{pieData}}"
+                  key-accessor-path="key"
+                  value-accessor-path="value"
+                  inner-radius="5"
+                  pad-angle="0.05"></pie-chart>
+            </div>
+
+            <div class="tab-content">
+              <radar-chart
+                  id="radar-chart"
+                  data="{{radarData}}"
+                  options="{maxValue: 100}"></radar-chart>
+            </div>
+          </iron-pages>
+        </section>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -140,7 +170,7 @@
 
         this.ajaxResponse.forEach((beer) => {
           preparedArray.push({
-            key: beer.name,
+            key: beer.name.substr(0, 5),
             value: {
               abv: beer.abv || 0,
               ibu: beer.ibu || 0,
@@ -153,7 +183,7 @@
       },
 
       _prepareDataForRadar: function () {
-        const keys = ['abv', 'srm', 'ebc', 'ph'];
+        const keys = ['abv', 'ebc', 'srm', 'ph'];
         let preparedArray = [];
         let axes = [];
 

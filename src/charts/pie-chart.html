@@ -11,7 +11,44 @@
   <template>
     <style>
       #chart {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-pack: justify;
+        -webkit-justify-content: space-between;
+        justify-content: space-between;
         height: 400px;
+      }
+
+      :host /deep/ [multicontainer].multi-chart-simple {
+        -ms-flex: 1 1 auto;
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+      }
+
+      :host /deep/ [is-selecting] /deep/ .selectable,
+      :host /deep/ [has-selection] /deep/ .selectable {
+        fill-opacity: 0.35;
+        stroke-opacity: 0.45;
+      }
+
+      :host /deep/ [is-selecting] /deep/ .selected,
+      :host /deep/ [has-selection] /deep/ .selected {
+        fill-opacity: 1;
+        stroke-opacity: 1;
+      }
+
+      :host /deep/ .selectable {
+        cursor: pointer;
+      }
+
+      :host /deep/ .selectable:hover {
+        stroke-width: 3px;
+        stroke-opacity: 0.7;
+        fill-opacity: 0.7;
       }
     </style>
 
@@ -43,7 +80,11 @@
 
       <multi-selector selection-type="select" accessor="[[keyAccessor]]"></multi-selector>
 
-      <multi-legend legend chart-width="[[width]]" scale-factor="0.7" scale="[[colorScale]]" position="top-right"></multi-legend>
+      <multi-legend legend
+                    chart-width="[[width]]"
+                    scale-factor="0.7"
+                    scale="[[colorScale]]"
+                    position="top-left"></multi-legend>
 
     </multi-chart-simple>
   </template>

@@ -4,7 +4,7 @@
 <dom-module id="radar-chart">
   <template>
     <style>
-      #chart {
+      #radar {
         height: 400px;
       }
 
@@ -36,6 +36,8 @@
 
       :host /deep/ .radar-chart .axis .legend.left {
         text-anchor: start;
+        -webkit-transform: translateX(-30px);
+        transform: translateX(-30px);
       }
 
       :host /deep/ .radar-chart .axis .legend.middle {
@@ -44,6 +46,8 @@
 
       :host /deep/ .radar-chart .axis .legend.right {
         text-anchor: end;
+        -webkit-transform: translateX(30px);
+        transform: translateX(30px);
       }
 
       :host /deep/ .radar-chart .tooltip {

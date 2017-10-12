@@ -6,53 +6,57 @@
       display: block;
       padding: 10px;
     }
+
+    table {
+      width: 100%;
+      border-spacing: 0;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #ddd;
+    }
+
+    th,
+    td {
+      padding: 3px 6px;
+    }
+
+    td.centered {
+      text-align: center;
+    }
   </style>
 
   <template>
-    <table id="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>First brewed</th>
-          <th>ABV (Alcohol by volume)</th>
-          <th>IBU (International Bitterness Units)(горечь)</th>
-          <th>EBC (European Brewery Convention)(цвет)</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <template is="dom-repeat" items="[[data]]">
+    <template is="dom-if" if="[[data.length]]">
+      <table id="table">
+        <thead>
           <tr>
-            <td>{{item.name}}</td>
-            <td>{{item.first_brewed}}</td>
-            <td>{{item.abv}}</td>
-            <td>{{item.ibu}}</td>
-            <td>{{item.ebc}}</td>
+            <th>Name</th>
+            <th>First brewed</th>
+            <th>ABV (Alcohol)</th>
+            <th>IBU (Bitterness)</th>
+            <th>EBC (Color)</th>
           </tr>
-        </template>
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          <template is="dom-repeat" items="[[data]]">
+            <tr>
+              <td>{{item.name}}</td>
+              <td class="centered">{{item.first_brewed}}</td>
+              <td class="centered">{{item.abv}}</td>
+              <td class="centered">{{item.ibu}}</td>
+              <td class="centered">{{item.ebc}}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </template>
   </template>
 
   <script>
     Polymer({
       is: 'table-view',
-
-      properties: {
-        beerRequestUrl: {
-          type: String,
-          value: 'https://api.punkapi.com/v2/beers',
-        },
-
-        requestErrorText: {
-          type: String,
-          value: 'Something, somewhere, went wrong',
-        },
-      },
-
-      _handleError: function () {
-        this.$.toast.show();
-      },
     });
   </script>
 </dom-module>

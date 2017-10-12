@@ -19,13 +19,13 @@
 
       window.Polymer.rootPath = '/';
 
-      (function() {
+      (function () {
         'use strict';
 
-        let onload = function() {
+        let onload = function () {
           if (!window.HTMLImports) {
             document.dispatchEvent(
-              new CustomEvent('WebComponentsReady', {bubbles: true})
+              new CustomEvent('WebComponentsReady', { bubbles: true })
             );
           }
         };
@@ -55,7 +55,6 @@
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
         line-height: 1.5;
-        min-height: 100vh;
         background-color: #eeeeee;
       }
     </style>
